@@ -12,6 +12,7 @@ const DB_URI = process.env.DB;
 //init express app
 const app = express();
 
+// load content function
 const connectDB = require("./db/connect");
 
 //cors middleware
@@ -39,6 +40,25 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/api/message", (req, res) => {
+  res.status(200).json({
+    message: "Hello from the server",
+    status: "success",
+    currentTime: new Date().toISOString(),
+    path: req.path,
+    url: req.originalUrl,
+  });
+});
+
+//account route
+const accountRoute = require("./router/account");
+app.use("/api/v1/account", accountRoute);
+//account route
+
+//global error handler middleware
+const globalErrorHandler = require("./middleware/globalErrorHandler");
+app.use(globalErrorHandler);
+
 //start server and connet to db
 const startServer = async () => {
   try {
@@ -56,4 +76,5 @@ const startServer = async () => {
   }
 };
 
+//start express app
 startServer();
