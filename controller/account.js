@@ -2,9 +2,53 @@ const test = (req, res) => {
   res.json({ lol: "lol" });
 };
 
+const accountSchema = require("../model/accountSchema");
+const jwt = require("jsonwebtoken");
+const secrete = process.env.JWT_SUPER_SEACRETE || "superGupthKey";
+const generateToken = (idObj) => {
+  return jwt.sign(idObj, secrete);
+};
 const createAccount = async (req, res) => {
   const { name, email, mobileNumber, password } = req.body;
-  res.json({ name, email, mobileNumber, password });
+  const createdAcc = await accountSchema.create({
+    name,
+    email,
+    mobileNumber,
+    password,
+  });
+  if (createdAcc) {
+    const {
+      _id,
+      name: savedName,
+      email: savedEmail,
+      mobileNumber: number,
+    } = createdAcc;
+    const id = _id.toString();
+    const token = generateToken({ id, name: savedName, email: savedEmail });
+    return res.status(201).json({
+      id: id,
+      name: savedName,
+      email: savedEmail,
+      mobileNumber: number,
+      message: "account created!",
+      status: "success",
+      token,
+    });
+  }
+
+  res
+    .status(201)
+    .json({ createdAcc, message: "account created!", status: "success" });
 };
 
-module.exports = { test, createAccount };
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await accountSchema.login(email, password);
+  const { _id, name, mobile, email: resEmail } = user;
+  const id = _id.toString();
+  const token = generateToken({ id, name, email: resEmail });
+  res
+    .status(202)
+    .json({ id, mobile, name, email: resEmail, token, status: "success" });
+};
+module.exports = { test, createAccount, login };
