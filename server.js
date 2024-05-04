@@ -55,6 +55,11 @@ const accountRoute = require("./router/account");
 app.use("/api/v1/account", accountRoute);
 //account route
 
+//products route
+const productsRoute = require("./router/products");
+app.use("/api/v1/products", productsRoute);
+//products route
+
 //global error handler middleware
 const globalErrorHandler = require("./middleware/globalErrorHandler");
 app.use(globalErrorHandler);
