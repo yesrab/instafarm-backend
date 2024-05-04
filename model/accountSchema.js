@@ -2,30 +2,37 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const { isEmail, isMobilePhone } = require("validator");
 
-const AccountSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Please add a name"],
-    trim: true,
+const AccountSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Please add a name"],
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, "Please add an email"],
+      unique: true,
+      lowercase: true,
+      validate: [isEmail, "Please add a valid email"],
+    },
+    mobileNumber: {
+      type: String,
+      required: [true, "Please add a number"],
+      unique: true,
+      validate: [isMobilePhone, "Please add a valid number"],
+    },
+    password: {
+      type: String,
+      required: [true, "Please add a password"],
+    },
+    credits: {
+      type: Number,
+      default: 10,
+    },
   },
-  email: {
-    type: String,
-    required: [true, "Please add an email"],
-    unique: true,
-    lowercase: true,
-    validate: [isEmail, "Please add a valid email"],
-  },
-  mobileNumber: {
-    type: String,
-    required: [true, "Please add a number"],
-    unique: true,
-    validate: [isMobilePhone, "Please add a valid number"],
-  },
-  password: {
-    type: String,
-    required: [true, "Please add a password"],
-  },
-});
+  { timestamps: true }
+);
 
 AccountSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt();
