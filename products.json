@@ -1,0 +1,38 @@
+[
+  {
+    "name": "urea",
+    "price": 300,
+    "description": "go garden Nano Urea Lequid Nitrogen Fertilizer Soil Application & Water Soluble For All Plants & Garden 500 Mlx2 Bottles, (1 L, Liquid)",
+    "image": "https://m.media-amazon.com/images/I/71VnVZHO3lL._SX522_.jpg"
+  },
+  {
+    "name": "Vermicompost",
+    "price": 169,
+    "description": "Ugaoo Vermicompost for Plants 1 Kg - Organic Fertilizer & Manure",
+    "image": "https://m.media-amazon.com/images/I/61OYPfyhchL._SX679_.jpg"
+  },
+  {
+    "name": "Grow Bags",
+    "price": 398,
+    "description": "Anandi Green's Premium Hdpe Uv Protected 260 GSM Round Shaped Green Colour Plants Grow Bags Suitable for Terrace and Vegetable Gardening (12x12, Pack of 5)",
+    "image": "https://m.media-amazon.com/images/I/71mG19CKR4L._SX679_.jpg"
+  },
+  {
+    "name": "NPK 20-20-20",
+    "price": 186,
+    "description": "Shiviproducts NPK 20-20-20 home gardening Fertilizers for Plants (400 gm),powder + Organic Humic Acid Fertilizer for Root Growth (free sample),powder",
+    "image": "https://m.media-amazon.com/images/I/81mMmNgIKyL._SX679_.jpg"
+  },
+  {
+    "name": "Heavy Duty Garden Farming Gloves",
+    "price": 189,
+    "description": "FreshDcart Heavy Duty Garden Farming Gloves Washable with Right Hand Fingertips ABS Claws for Digging and Gardening (Free Size, Green)(Acrylonitrile Butadiene Styrene, pack of)",
+    "image": "https://m.media-amazon.com/images/I/51NKKv35JzL._SX679_.jpg"
+  },
+  {
+    "name": "GENNEXT SEEDS Pack of 8",
+    "price": 599,
+    "description": "GENNEXT SEEDS Pack of 8 Vegetable Seeds Coriander, Beetroot, Radish, Beans, Turnip, Cabbage, Cauliflower and Spinach",
+    "image": "https://m.media-amazon.com/images/I/71tOxXyAS5L._SX679_.jpg"
+  }
+]
