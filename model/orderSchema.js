@@ -14,6 +14,22 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    orderType: {
+      type: String,
+      enum: ["credit", "goods"],
+      default: "goods",
+    },
+    orderStatus: {
+      type: String,
+      enum: [
+        "ACTIVE",
+        "PAID",
+        "EXPIRED",
+        "TERMINATED",
+        "TERMINATION_REQUESTED",
+      ],
+      default: "ACTIVE",
+    },
     orderdItems: {
       type: [
         {
@@ -41,22 +57,23 @@ const orderSchema = new mongoose.Schema(
           },
         },
       ],
+      default: [],
     },
   },
   { timestamps: true }
 );
 
-cartSchema.pre("save", function (next) {
+orderSchema.pre("save", function (next) {
   this.orderdItems.forEach((productObj) => {
-    productObj.subTotal = productObj.productRate * productObj.quantity;
+    productObj.subTotal = productObj.productRate * productObj.productQuantity;
   });
   next();
 });
 
-cartSchema.pre("save", function (next) {
+orderSchema.pre("save", function (next) {
   let total = 0;
   this.orderdItems.forEach((product) => {
-    const subTotal = product.productRate * product.quantity;
+    const subTotal = product.productRate * product.productQuantity;
     total += subTotal;
   });
   this.grandTotal = total;

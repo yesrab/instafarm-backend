@@ -39,6 +39,10 @@ const cartSchema = new mongoose.Schema(
             type: Number,
             default: 0,
           },
+          image: {
+            type: String,
+            required: [true, "please enter product image"],
+          },
         },
       ],
       default: [],
@@ -49,7 +53,7 @@ const cartSchema = new mongoose.Schema(
 
 cartSchema.pre("save", function (next) {
   this.cartItems.forEach((productObj) => {
-    productObj.subTotal = productObj.productRate * productObj.quantity;
+    productObj.subTotal = productObj.productRate * productObj.productQuantity; // Changed quantity to productQuantity
   });
   next();
 });
@@ -57,7 +61,7 @@ cartSchema.pre("save", function (next) {
 cartSchema.pre("save", function (next) {
   let total = 0;
   this.cartItems.forEach((product) => {
-    const subTotal = product.productRate * product.quantity;
+    const subTotal = product.productRate * product.productQuantity; // Changed quantity to productQuantity
     total += subTotal;
   });
   this.grandTotal = total;

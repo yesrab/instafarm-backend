@@ -66,4 +66,29 @@ const getCreditCount = async (req, res) => {
   res.status(200).json({ status: "success", credits: account.credits });
 };
 
-module.exports = { test, createAccount, login, getCreditCount };
+const purchaseCredits = async (req, res) => {
+  const { id, name } = res.locals.tokenData;
+  const { amount, purchasedCredits } = req.body;
+  console.log(amount, purchasedCredits);
+  const account = await accountSchema.findById(id);
+  const { credits } = account;
+  const newCredits = credits + purchasedCredits;
+  const updatedAccount = await accountSchema.findByIdAndUpdate(id, {
+    credits: newCredits,
+  });
+
+  res.status(202).json({
+    updatedAccount,
+    status: "success",
+    credits: newCredits,
+    message: `${purchasedCredits} credits added`,
+  });
+};
+
+module.exports = {
+  test,
+  createAccount,
+  login,
+  getCreditCount,
+  purchaseCredits,
+};
