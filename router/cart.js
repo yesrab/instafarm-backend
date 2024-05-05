@@ -5,6 +5,7 @@ const {
   addProductToCart,
   getCartData,
   editProductQuantity,
+  purchaseCart,
 } = require("../controller/cart");
 
 router.route("/addProduct").post(requireAuth, addProductToCart);

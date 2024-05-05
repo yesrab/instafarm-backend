@@ -30,6 +30,9 @@ const orderSchema = new mongoose.Schema(
       ],
       default: "ACTIVE",
     },
+    address: {
+      type: String,
+    },
     orderdItems: {
       type: [
         {
@@ -40,7 +43,6 @@ const orderSchema = new mongoose.Schema(
           productId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "products",
-            required: [true, "a valid product id is required"],
           },
           productQuantity: {
             type: Number,

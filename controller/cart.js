@@ -68,7 +68,7 @@ const purchaseCart = async (req, res) => {
   const order = await orderSchema.create({
     customerName,
     customerId: id,
-    cartItems,
+    orderdItems: cartItems,
   });
   customerCart.cartItems = [];
   await customerCart.save();

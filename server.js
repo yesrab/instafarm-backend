@@ -60,6 +60,16 @@ const productsRoute = require("./router/products");
 app.use("/api/v1/products", productsRoute);
 //products route
 
+//cart route
+const cartRoute = require("./router/cart");
+app.use("/api/v1/cart", cartRoute);
+//cart route
+
+//order route
+const orderRoute = require("./router/order");
+app.use("/api/v1/order", orderRoute);
+//order route
+
 //global error handler middleware
 const globalErrorHandler = require("./middleware/globalErrorHandler");
 app.use(globalErrorHandler);
