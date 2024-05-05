@@ -1,6 +1,7 @@
 const cartSchema = require("../model/cartSchema");
 const productSchema = require("../model/productSchema");
 const orderSchema = require("../model/orderSchema");
+const customerSchema = require("../model/accountSchema");
 const addProductToCart = async (req, res) => {
   const { id } = res.locals.tokenData;
   const { productId: prID } = req.body;
@@ -64,6 +65,13 @@ const editProductQuantity = async (req, res) => {
 const purchaseCart = async (req, res) => {
   const { id } = res.locals.tokenData;
   const customerCart = await cartSchema.findOne({ customerId: id });
+  const custormr = await customerSchema.findById(id);
+  if (custormr.credits < customerCart.grandTotal) {
+    return res.status(200).json({
+      error: "Insufficient funds",
+      message: "Insufficient Credits to continue Checkout",
+    });
+  }
   const { customerName, cartItems } = customerCart;
   const order = await orderSchema.create({
     customerName,
