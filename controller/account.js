@@ -1,6 +1,7 @@
 const test = (req, res) => {
   res.json({ lol: "lol" });
 };
+const bcrypt = require("bcrypt");
 
 const accountSchema = require("../model/accountSchema");
 const cartSchema = require("../model/cartSchema");
@@ -10,13 +11,18 @@ const secrete = process.env.JWT_SUPER_SEACRETE || "superGupthKey";
 const generateToken = (idObj) => {
   return jwt.sign(idObj, secrete);
 };
+
 const createAccount = async (req, res) => {
   const { name, email, mobileNumber, password } = req.body;
+
+  const salt = await bcrypt.genSalt();
+  const hash = await bcrypt.hash(password, salt);
+
   const createdAcc = await accountSchema.create({
     name,
     email,
     mobileNumber,
-    password,
+    password: hash,
   });
   if (createdAcc) {
     const {
