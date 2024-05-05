@@ -114,6 +114,7 @@ const purchaseCredits = async (req, res) => {
       order_id: createdOrder._id,
       order_amount: amount,
       order_currency: "INR",
+      order_note: `${purchasedCredits} credits`,
     }),
   };
   try {
@@ -139,10 +140,45 @@ const purchaseCredits = async (req, res) => {
   });
 };
 
+const paymentStatus = async (req, res) => {
+  const { id } = req.params;
+  console.log("payment call backroute");
+  const cashURl = `https://sandbox.cashfree.com/pg/orders/${id}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "accept": "application/json",
+      "x-api-version": "2023-08-01",
+      "x-client-id": process.env.AppID,
+      "x-client-secret": process.env.Secret_Key,
+    },
+  };
+
+  const resp = await fetch(cashURl, options);
+  const data = await resp.json();
+  console.log(data);
+  if (data.order_status === "PAID") {
+    const crOrder = await orderSchema.findById(data.order_id);
+    const { customerId, customerName } = crOrder;
+    const account = await accountSchema.findById(customerId);
+    const { credits } = account;
+    const orderString = data.order_note;
+    const credit = orderString.split(" ")[0];
+    const newCredits = credits + parseInt(credit);
+    crOrder.orderStatus = "PAID";
+    crOrder.save();
+    await accountSchema.findByIdAndUpdate(customerId, { credits: newCredits });
+    res.redirect(`${process.env.FEURL}/paymentStatus/Payment success`);
+  } else {
+    res.redirect(`${process.env.FEURL}/paymentStatus/Payment Failed`);
+  }
+};
+
 module.exports = {
   test,
   createAccount,
   login,
   getCreditCount,
   purchaseCredits,
+  paymentStatus,
 };

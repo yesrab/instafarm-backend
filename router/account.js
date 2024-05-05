@@ -7,6 +7,7 @@ const {
   login,
   getCreditCount,
   purchaseCredits,
+  paymentStatus,
 } = require("../controller/account");
 const { requireAuth } = require("../middleware/authmiddleware");
 
@@ -15,5 +16,5 @@ router.route("/create").post(createAccount);
 router.route("/login").post(login);
 router.route("/creditCount").get(requireAuth, getCreditCount);
 router.route("/purchase").post(requireAuth, purchaseCredits);
-
+router.route("/paymentStatus/:id").get(paymentStatus);
 module.exports = router;
