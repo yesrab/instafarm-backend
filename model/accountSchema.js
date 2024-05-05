@@ -40,7 +40,7 @@ AccountSchema.pre("save", async function (next) {
   next();
 });
 
-AccountSchema.statics.login = async function (accountInfo, password) {
+AccountSchema.statics.login = async function (email, password) {
   const loginError = new mongoose.Error.ValidationError();
   loginError.message = "Account login failed";
   loginError._message = "Account validation failed";
@@ -48,11 +48,12 @@ AccountSchema.statics.login = async function (accountInfo, password) {
     name: "loginError",
     message: "Incorrect email/password",
   };
-  const user = await this.findOne({
-    $or: [{ email: accountInfo }, { number: accountInfo }],
-  });
+  const user = await this.findOne({ email });
+
+  // console.log(user);
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
+
     if (auth) {
       return user;
     }

@@ -80,6 +80,7 @@ const startServer = async () => {
     await connectDB(DB_URI);
     console.log("DB connected");
     app.listen(PORT, () => {
+      console.clear();
       console.log(`Server Started at port ${PORT}`);
       console.log("");
       console.log("\x1b[36m%s\x1b[0m", `http://localhost:${PORT}/`);

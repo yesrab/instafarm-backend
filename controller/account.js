@@ -51,6 +51,7 @@ const createAccount = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
   const user = await accountSchema.login(email, password);
   const { _id, name, mobile, email: resEmail } = user;
   const id = _id.toString();
